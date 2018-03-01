@@ -6,18 +6,54 @@ public class Bullet : MonoBehaviour {
 
     public State CurrentState = State.InPool;
 
+    public BulletEvent OnShoot;
+    public BulletEvent OnDestroy;
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (CurrentState == State.InUse)
+            DestroyMe();
+    }
+
+    private void Update()
+    {
+        if (CurrentState == State.InUse)
+        {
+            transform.position += direction * force;
+        }
+    }
+
     #region API
 
-    public void Shoot()
+    #region Shoot
+
+    Vector3 direction;
+    float force;
+
+    public void Shoot(Vector3 _direction, float _force)
     {
         CurrentState = State.InUse;
-    }
-    public void Destroy()
-    {
-        CurrentState = State.InPool;
+        if (OnShoot != null)
+            OnShoot(this);
+        direction = _direction;
+        force = _force;
     }
 
     #endregion
+
+    public void DestroyMe()
+    {
+        CurrentState = State.InPool;
+        if (OnDestroy != null)
+            OnDestroy(this);
+    }
+
+    #endregion
+
+
+    #region Dichiarazioni tipi
+
+    public delegate void BulletEvent(Bullet bullet);
 
     public enum State
     {
@@ -26,4 +62,5 @@ public class Bullet : MonoBehaviour {
 
     }
 
+    #endregion
 }
