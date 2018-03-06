@@ -12,7 +12,13 @@ public class Bullet : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         if (CurrentState == State.InUse)
+        {
+            if (collision.gameObject.tag == "Enemy")
+            {
+                collision.gameObject.GetComponent<EnemyStatistic>().Life--;
+            }
             DestroyMe();
+        }
     }
 
     private void Update()
@@ -59,7 +65,6 @@ public class Bullet : MonoBehaviour {
     {
         InPool,
         InUse,
-
     }
 
     #endregion

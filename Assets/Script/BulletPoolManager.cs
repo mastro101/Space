@@ -26,6 +26,9 @@ public class BulletPoolManager : MonoBehaviour{
         }
     }
 
+    /// <summary>
+    /// Quando un proiettile all'interno della lista Bullets si disattiva, si disiscrivead entrambi gli eventi
+    /// </summary>
     private void OnDisable()
     {
         foreach (Bullet bullet in bullets)

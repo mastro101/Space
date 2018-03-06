@@ -10,24 +10,26 @@ public class PlayerMovement : MonoBehaviour {
     public KeyCode LeftInput;
     public KeyCode RightInput;
 
+    public float UpLimit, BackLimit, LeftLimimit, RightLimit;
+
     public float MovementSpeed;
 
 	void FixedUpdate () {
         // Up
-        if (Input.GetKey(ForwardInput))
+        if (Input.GetKey(ForwardInput) && transform.position.z < UpLimit)
         {
             transform.position += Vector3.forward * MovementSpeed;
         }
-        else if (Input.GetKey(BackwardInput))
+        else if (Input.GetKey(BackwardInput) && transform.position.z > BackLimit)
         {
             transform.position += Vector3.back * MovementSpeed;
         }
         // Left
-        if (Input.GetKey(LeftInput))
+        if (Input.GetKey(LeftInput) && transform.position.x > LeftLimimit)
         {
             transform.position += Vector3.left * MovementSpeed;
         }
-        else if (Input.GetKey(RightInput))
+        else if (Input.GetKey(RightInput) && transform.position.x < RightLimit)
         {
             transform.position += Vector3.right * MovementSpeed;
         }
