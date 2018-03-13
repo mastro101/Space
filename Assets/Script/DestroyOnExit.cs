@@ -3,9 +3,14 @@ using System.Collections;
 
 public class DestroyOnExit : MonoBehaviour
 {
+    
+
 
     private void OnTriggerExit(Collider other)
     {
-        Destroy(other.gameObject);
+        if (other.gameObject.tag == "Bullet")
+        {
+            other.GetComponent<Bullet>().DestroyMe();
+        }
     }
 }

@@ -9,19 +9,27 @@ public class Bullet : MonoBehaviour {
     public BulletEvent OnShoot;
     public BulletEvent OnDestroy;
 
+    public EnemyHit OnEnemyHit;
+
     private void OnCollisionEnter(Collision collision)
     {
+        EnemyStatistic enemyHit;
+
         if (CurrentState == State.InUse)
         {
-            if (collision.gameObject.tag == "Enemy")
+            enemyHit = collision.gameObject.GetComponent<EnemyStatistic>();
+            if (enemyHit)
             {
-                collision.gameObject.GetComponent<EnemyStatistic>().Life--;
+                if (OnEnemyHit != null)
+                {
+                    OnEnemyHit(enemyHit, this);
+                }
             }
             DestroyMe();
         }
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (CurrentState == State.InUse)
         {
@@ -60,6 +68,8 @@ public class Bullet : MonoBehaviour {
     #region Dichiarazioni tipi
 
     public delegate void BulletEvent(Bullet bullet);
+
+    public delegate void EnemyHit(EnemyStatistic enemy, Bullet bullet);
 
     public enum State
     {

@@ -3,11 +3,19 @@ using System.Collections;
 
 public class EnemyStatistic : MonoBehaviour
 {
-    
+
+    public bool IsAlive = true;
+    public int ScoreValue;
     public float MovementSpeed;
     public float LeftLimit, RightLimit;
     public bool goLeft, goRight;
     public int Life;
+
+    public void TakeDamage(int damage = 1)
+    {
+        Life = 0;
+    }
+
 
     public void Death()
     {
