@@ -16,7 +16,7 @@ public class ScoreCounterController : MonoBehaviour
     private void UpdateScore(PlayerData player)
     {
         if (player == CurrentPlayer)
-        ScoreText.text = player.Score.ToString();
+        ScoreText.text = "Score:" + player.Score.ToString();
     }
 
     private void OnDisable()

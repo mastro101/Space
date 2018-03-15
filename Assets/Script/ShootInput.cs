@@ -8,6 +8,7 @@ public class ShootInput : MonoBehaviour
     public KeyCode ShootKey;
     public float ShootForce;
     public Transform ShootPosition;
+    public GameObject CurrentBulletGO;
 
     BulletPoolManager bulletManager;
     PlayerData playerData;
@@ -27,21 +28,24 @@ public class ShootInput : MonoBehaviour
 
     void Shoot()
     {
-        Bullet bulletToShoot = bulletManager.GetBullet();
-        bulletToShoot.transform.position = ShootPosition.position;
+        IBullet currentBullet = CurrentBulletGO.GetComponent<IBullet>();
+        if (currentBullet == null)
+            return;
+        IBullet bulletToShoot = bulletManager.GetBullet(currentBullet.ID);
+        bulletToShoot.gameObject.transform.position = ShootPosition.position;
         bulletToShoot.Shoot(transform.forward, ShootForce);
         bulletToShoot.OnDestroy += OnBulletDestroy;
         bulletToShoot.OnEnemyHit += OnEnemyHit;
     }
 
-    public void OnEnemyHit(EnemyStatistic enemyHit, Bullet bullet)
+    public void OnEnemyHit(EnemyStatistic enemyHit, IBullet bullet)
     {
         bullet.OnEnemyHit -= OnEnemyHit;        
         enemyHit.TakeDamage();
         playerData.Score += enemyHit.ScoreValue;
     }
 
-    public void OnBulletDestroy(Bullet bullet)
+    public void OnBulletDestroy(IBullet bullet)
     {
         bullet.OnEnemyHit -= OnEnemyHit;
         bullet.OnDestroy -= OnBulletDestroy;

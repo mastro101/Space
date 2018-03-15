@@ -21,9 +21,10 @@ GameObject:
   - component: {fileID: 4942024575528148}
   - component: {fileID: 114098557049263388}
   - component: {fileID: 114254919632917026}
+  - component: {fileID: 114312751953047978}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -37,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4066508366863668}
   - component: {fileID: 33158447020625338}
-  - component: {fileID: 65264570854515090}
   - component: {fileID: 23993112638161982}
   m_Layer: 0
   m_Name: Wings
@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 23349131223286060}
   m_Layer: 0
   m_Name: Graphic
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -99,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1234370447784112}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.01, z: -0}
+  m_LocalPosition: {x: 0, y: -0.8, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4176895828023200}
@@ -228,18 +228,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65264570854515090
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1052199686236584}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114098557049263388
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -251,11 +239,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09d32719ec4102428c9886d4eb520ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ForwardInput: 119
-  BackwardInput: 115
-  LeftInput: 97
-  RightInput: 100
-  MovementSpeed: 1
+  ForwardInput: 273
+  BackwardInput: 274
+  LeftInput: 276
+  RightInput: 275
+  UpLimit: 5.7
+  BackLimit: -5
+  LeftLimimit: -18.6
+  RightLimit: 18.6
+  MovementSpeed: 0.5
 --- !u!114 &114254919632917026
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -268,5 +260,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShootKey: 32
-  ShootForce: 0.2
+  ShootForce: 0.5
   ShootPosition: {fileID: 4067955578109302}
+--- !u!114 &114312751953047978
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1008871087671440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac6fd4ddbbdc49b4c9e8763117f657dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

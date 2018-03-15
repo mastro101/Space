@@ -14,11 +14,6 @@ public class EnemyStatistic : MonoBehaviour
     public void TakeDamage(int damage = 1)
     {
         Life = 0;
-    }
-
-
-    public void Death()
-    {
         if (Life <= 0)
         {
             Destroy(gameObject);

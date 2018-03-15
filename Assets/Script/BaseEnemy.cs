@@ -13,7 +13,6 @@ public class BaseEnemy : EnemyStatistic
 
     private void Update()
     {
-        Death();
         if (transform.position.x > RightLimit)
         {
             goRight = false;
