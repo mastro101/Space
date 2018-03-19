@@ -10,7 +10,14 @@ public class DestroyOnExit : MonoBehaviour
     {
         if (other.gameObject.tag == "Bullet")
         {
-            other.GetComponent<BulletStandard>().DestroyMe();
+            other.GetComponent<IBullet>().DestroyMe();
+        }
+
+        if (other.gameObject.tag == "Enemy")
+        {
+            other.GetComponent<IEnemy>().DestroyMe();
         }
     }
+
+
 }

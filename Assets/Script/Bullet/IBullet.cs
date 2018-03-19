@@ -4,7 +4,7 @@ public interface IBullet {
 
     string ID { get; }
     GameObject gameObject { get; }
-    State CurrentState { get; set; }
+    IBulletState CurrentState { get; set; }
 
 
     void DestroyMe();
@@ -21,11 +21,11 @@ public class IBulletEvents {
 
     public delegate void BulletEvent(IBullet bullet);
 
-    public delegate void EnemyHit(EnemyStatistic enemy, IBullet bullet);
+    public delegate void EnemyHit(IEnemy enemy, IBullet bullet);
 
 }
 
-public enum State
+public enum IBulletState
 {
     InPool,
     Destroying,

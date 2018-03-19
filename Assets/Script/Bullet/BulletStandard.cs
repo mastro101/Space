@@ -10,23 +10,7 @@ public class BulletStandard : BulletBase {
         return "BulletStandard";
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        EnemyStatistic enemyHit;
-
-        if (CurrentState == State.InUse)
-        {
-            enemyHit = collision.gameObject.GetComponent<EnemyStatistic>();
-            if (enemyHit)
-            {
-                if (OnEnemyHit != null)
-                {
-                    OnEnemyHit(enemyHit, this);
-                }
-            }
-            DestroyMe();
-        }
-    }
+    
 
     
 

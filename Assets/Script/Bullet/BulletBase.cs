@@ -4,9 +4,9 @@ using System;
 
 public abstract class BulletBase : MonoBehaviour, IBullet
 {
-    protected State _currentState = State.InPool;
+    protected IBulletState _currentState = IBulletState.InPool;
 
-    public State CurrentState
+    public IBulletState CurrentState
     {
         get { return _currentState; }
         set { _currentState = value; }
@@ -35,10 +35,10 @@ public abstract class BulletBase : MonoBehaviour, IBullet
             OnDestroy(this);
     }
 
-    protected void InvockOnEnemyHit()
+    protected void InvockOnEnemyHit(EnemyBase enemy)
     {
         if (OnEnemyHit != null)
-            OnEnemyHit(this);
+            OnEnemyHit(enemy, this);
     }
 
     #endregion
@@ -50,9 +50,8 @@ public abstract class BulletBase : MonoBehaviour, IBullet
 
     public virtual void Shoot(Vector3 _direction, float _force)
     {
-        CurrentState = State.InUse;
-        if (OnShoot != null)
-            OnShoot(this);
+        CurrentState = IBulletState.InUse;
+        InvockOnShoot();
         direction = _direction;
         force = _force;
     }
@@ -64,7 +63,7 @@ public abstract class BulletBase : MonoBehaviour, IBullet
 
     private void OnFixedUpdate()
     {
-        if (CurrentState == State.InUse)
+        if (CurrentState == IBulletState.InUse)
         {
             transform.position += direction * force;
         }
@@ -72,15 +71,41 @@ public abstract class BulletBase : MonoBehaviour, IBullet
 
     public virtual void DestroyMe()
     {
-        CurrentState = State.Destroying;
-        if (OnDestroy != null)
-            OnDestroy(this);
+        CurrentState = IBulletState.Destroying;
+        InvockOnDestroy();
         DestroyVisualEffect();
     }
 
     public virtual void DestroyVisualEffect()
     {
-        CurrentState = State.InPool;
+        CurrentState = IBulletState.InPool;
+    }
+
+    #endregion
+
+    #region Collision
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        OnCollisionDefaultBehaviour(collision);
+    }
+
+    private void OnCollisionDefaultBehaviour(Collision collision)
+    {
+        EnemyBase enemyHit;
+
+        if (CurrentState == IBulletState.InUse)
+        {
+            enemyHit = collision.gameObject.GetComponent<EnemyBase>();
+            if (enemyHit)
+            {
+                if (OnEnemyHit != null)
+                {
+                    InvockOnEnemyHit(enemyHit);
+                }
+            }
+            DestroyMe();
+        }
     }
 
     #endregion

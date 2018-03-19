@@ -7,37 +7,40 @@ public class BulletPoolManager : MonoBehaviour{
 
     Vector3 poolPositionOutOffScreen = new Vector3(1000, 1000, 1000);
 
-    public GameObject BulletPrefab;
+    public GameObject[] BulletPrefabs;
     public int MaxBullet = 20;
 
     List<IBullet> bullets = new List<IBullet>();
 
     private void Start()
     {
-        for (int i = 0; i < MaxBullet; i++)
+        foreach (var bulletPrefab in BulletPrefabs)
         {
-            GameObject newGo = Instantiate(BulletPrefab);
-            IBullet bullet = newGo.GetComponent<IBullet>();
-            if (bullet == null)
+            for (int i = 0; i < MaxBullet; i++)
             {
-                Debug.LogErrorFormat("Il prefab {0} non ha componenti che implementano l'interfaccia IBullet", newGo.name);
-                return;
+                GameObject newGO = Instantiate(bulletPrefab);
+                IBullet bullet = newGO.GetComponent<IBullet>();
+                if (bullet == null)
+                {
+                    Debug.LogErrorFormat("Il prefab {0} non ha componenti che implementano l'interfaccia IBullet!", newGO.name);
+                    return;
+                }
+                //Iscrizione ai due eventi
+                bullet.OnShoot += OnBulletShoot;
+                bullet.OnDestroy += OnBulletDestroy;
+                //
+                OnBulletDestroy(bullet);
+                bullets.Add(bullet);
             }
-            //Iscrizione ai due eventi
-            bullet.OnShoot += OnBulletShoot;
-            bullet.OnDestroy += OnBulletDestroy;
-            //
-            OnBulletDestroy(bullet);
-            bullets.Add(bullet);
         }
     }
 
     /// <summary>
-    /// Quando un proiettile all'interno della lista Bullets si disattiva, si disiscrivead entrambi gli eventi
+    /// Quando un proiettile all'interno della lista Bullets si disattiva, si disiscrive ad entrambi gli eventi
     /// </summary>
     private void OnDisable()
     {
-        foreach (BulletStandard bullet in bullets)
+        foreach (IBullet bullet in bullets)
         {
             bullet.OnShoot -= OnBulletShoot;
             bullet.OnDestroy -= OnBulletDestroy;
@@ -57,14 +60,14 @@ public class BulletPoolManager : MonoBehaviour{
 
 
 
-    public BulletStandard GetBullet(string BulletID)
+    public IBullet GetBullet(string BulletID)
     {
-        foreach (BulletStandard bullet in bullets)
+        foreach (IBullet bullet in bullets)
         {
-            if (bullet.CurrentState == BulletStandard.State.InPool)
+            if (bullet.CurrentState == IBulletState.InPool && bullet.ID == BulletID)
                 return bullet;
         }
-        Debug.Log("Pool esaurito");
+        Debug.Log("Bullet Pool esaurito");
         return null;
     }
 
