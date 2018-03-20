@@ -35,7 +35,7 @@ public abstract class BulletBase : MonoBehaviour, IBullet
             OnDestroy(this);
     }
 
-    protected void InvockOnEnemyHit(EnemyBase enemy)
+    protected void InvockOnEnemyHit(IEnemy enemy)
     {
         if (OnEnemyHit != null)
             OnEnemyHit(enemy, this);
@@ -92,12 +92,12 @@ public abstract class BulletBase : MonoBehaviour, IBullet
 
     private void OnCollisionDefaultBehaviour(Collision collision)
     {
-        EnemyBase enemyHit;
+        IEnemy enemyHit;
 
         if (CurrentState == IBulletState.InUse)
         {
-            enemyHit = collision.gameObject.GetComponent<EnemyBase>();
-            if (enemyHit)
+            enemyHit = collision.gameObject.GetComponent<IEnemy>();
+            if (enemyHit != null)
             {
                 if (OnEnemyHit != null)
                 {

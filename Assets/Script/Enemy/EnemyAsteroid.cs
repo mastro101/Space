@@ -4,16 +4,13 @@ using UnityEngine;
 
 public class EnemyAsteroid : EnemyBase {
 
-    protected override string getID()
-    {
-        return "EnemyAsteroid";
-    }
 
-    private void Update()
+    public override void MovementBehaviour()
     {
         if (CurrentState == IEnemyState.InUse)
         {
             transform.position += new Vector3(0, 0, -1) * MovementSpeed;
         }
     }
+
 }

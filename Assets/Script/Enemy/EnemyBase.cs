@@ -6,12 +6,20 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy {
 
     protected IEnemyState _currentState = IEnemyState.InPool;
 
-    public bool IsAlive = true;
-    public int ScoreValue;
-    public float MovementSpeed;
-    public float leftLimit, rightLimit;
-    public bool goLeft, goRight;
+    public string IDEnemy;
     public int Life;
+    public bool IsAlive = true;
+    public float MovementSpeed;
+    public Transform leftLimit, rightLimit;
+    public bool goLeft, goRight;
+    public int ScoreValue;
+
+    public float ShootForce;
+    public Transform ShootStartPosition;
+    public GameObject CurrentBulletGOPrefab;
+
+    BulletPoolManager bulletManager;
+    string BulletID;
 
     int _life;
     bool _goLeft, _goRight;
@@ -27,22 +35,20 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy {
 
     public string ID
     {
-        get { return getID(); }
+        get { return IDEnemy; }
     }
-
-    protected abstract string getID();
 
     public int Score
     {
         get { return ScoreValue; }
     }
     
-    public float LeftLimit
+    public Transform LeftLimit
     {
         get { return leftLimit; }
     }
 
-    public float RightLimit
+    public Transform RightLimit
     {
         get { return rightLimit; }
     }
@@ -65,6 +71,34 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy {
 
     #region InGame
 
+    public abstract void MovementBehaviour();
+
+    public virtual void ShootBehaviour()
+    {
+        if (CurrentState == IEnemyState.InUse)
+            GetBullet().Shoot(ShootStartPosition.forward, ShootForce);
+
+    }
+
+    public IBullet GetBullet()
+    {
+        IBullet bulletToShoot = bulletManager.GetBullet(BulletID);
+        bulletToShoot.gameObject.transform.position = ShootStartPosition.position;
+        bulletToShoot.OnDestroy += OnBulletDestroy;
+        return bulletToShoot;
+    }
+
+    private void OnBulletDestroy(IBullet bullet)
+    {
+        
+    }
+
+    public void FixedUpdate()
+    {
+        MovementBehaviour();
+        ShootBehaviour();
+    }
+
     public virtual void TakeDamage(int damage)
     {
         Life -= damage;
@@ -83,12 +117,25 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy {
 
     }
 
+    private void Start()
+    {
+        IBullet currentBullet = CurrentBulletGOPrefab.GetComponent<IBullet>();
+        if (currentBullet == null)
+            return;
+        BulletID = currentBullet.ID;
+        bulletManager = FindObjectOfType<BulletPoolManager>(); 
+    }
+
     private void StartStatistic()
     {
+       
+        IsAlive = true;
         _life = Life;
         _goRight = goRight;
         _goLeft = goLeft;
     }
+
+
 
     public virtual void DestroyMe()
     {
@@ -121,6 +168,8 @@ public abstract class EnemyBase : MonoBehaviour, IEnemy {
             Destroy(collision.gameObject);
         }
     }
+
+
 
     #endregion
 }

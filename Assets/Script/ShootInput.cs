@@ -8,7 +8,7 @@ public class ShootInput : MonoBehaviour
     public KeyCode ShootKey;
     public float ShootForce;
     public Transform ShootStartPosition;
-    public GameObject CurrentBulletGO;
+    public GameObject CurrentBulletGOPrefab;
 
     BulletPoolManager bulletManager;
     PlayerData playerData;
@@ -28,7 +28,7 @@ public class ShootInput : MonoBehaviour
 
     void Shoot()
     {
-        IBullet currentBullet = CurrentBulletGO.GetComponent<IBullet>();
+        IBullet currentBullet = CurrentBulletGOPrefab.GetComponent<IBullet>();
         if (currentBullet == null)
             return;
         IBullet bulletToShoot = bulletManager.GetBullet(currentBullet.ID);

@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour {
         if (currentEnemy == null)
             return;
         IEnemy EnemyToSpawn = enemyManager.GetEnemy(currentEnemy.ID);
-        EnemyToSpawn.gameObject.transform.position = new Vector3(Random.Range(currentEnemy.RightLimit, currentEnemy.LeftLimit), 0, SpawnPosition.position.z);
+        EnemyToSpawn.gameObject.transform.position = new Vector3(Random.Range(currentEnemy.RightLimit.position.x, currentEnemy.LeftLimit.position.x), 0, SpawnPosition.position.z);
         EnemyToSpawn.Spawn();
         
     }

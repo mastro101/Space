@@ -4,35 +4,25 @@ using System;
 
 public class EnemyInvaders : EnemyBase
 {
-    protected override string getID()
-    {
-        return "EnemyInvaders";
-    }
 
-
-    private void Update()
+    public override void MovementBehaviour()
     {
         if (CurrentState == IEnemyState.InUse)
         {
-            if (transform.position.x > RightLimit)
+
+            if (transform.position.x > RightLimit.position.x)
             {
                 goRight = false;
                 goLeft = true;
                 transform.position += new Vector3(0, 0, -1f);
             }
-            else if (transform.position.x < LeftLimit)
+            else if (transform.position.x < LeftLimit.position.x)
             {
                 goLeft = false;
                 goRight = true;
                 transform.position += new Vector3(0, 0, -1f);
             }
-        }
-    }
 
-    private void FixedUpdate()
-    {
-        if (CurrentState == IEnemyState.InUse)
-        {
             if (goRight)
             {
                 transform.position += Vector3.right * MovementSpeed;
@@ -42,5 +32,6 @@ public class EnemyInvaders : EnemyBase
                 transform.position += Vector3.left * MovementSpeed;
             }
         }
-    }    
+    }
+
 }
