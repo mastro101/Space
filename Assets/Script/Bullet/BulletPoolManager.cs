@@ -7,6 +7,10 @@ public class BulletPoolManager : MonoBehaviour{
 
     Vector3 poolPositionOutOffScreen = new Vector3(1000, 1000, 1000);
 
+    public delegate void BulletManagerEvent(IBullet _IBullet);
+
+    public static BulletManagerEvent OnBulletInGame;
+
     public GameObject[] BulletPrefabs;
     public int MaxBullet = 20;
 
@@ -65,7 +69,11 @@ public class BulletPoolManager : MonoBehaviour{
         foreach (IBullet bullet in bullets)
         {
             if (bullet.CurrentState == IBulletState.InPool && bullet.ID == BulletID)
+            {
+                if (OnBulletInGame == null)
+                    OnBulletInGame(bullet);
                 return bullet;
+            }
         }
         Debug.Log("Bullet Pool esaurito");
         return null;

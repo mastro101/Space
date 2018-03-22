@@ -69,16 +69,17 @@ public abstract class BulletBase : MonoBehaviour, IBullet
         }
     }
 
-    public virtual void DestroyMe()
+    public virtual void DestroyBehaviour()
     {
         CurrentState = IBulletState.Destroying;
         InvockOnDestroy();
         DestroyVisualEffect();
+        CurrentState = IBulletState.InPool;
     }
 
     public virtual void DestroyVisualEffect()
     {
-        CurrentState = IBulletState.InPool;
+
     }
 
     #endregion
@@ -104,7 +105,7 @@ public abstract class BulletBase : MonoBehaviour, IBullet
                     InvockOnEnemyHit(enemyHit);
                 }
             }
-            DestroyMe();
+            DestroyBehaviour();
         }
     }
 

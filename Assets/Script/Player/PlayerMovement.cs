@@ -14,24 +14,31 @@ public class PlayerMovement : MonoBehaviour {
 
     public float MovementSpeed;
 
-	void FixedUpdate () {
+    public float XAxisMovement;
+    public float ZAxisMovement;
+
+    void FixedUpdate () {
         // Up
         if (Input.GetKey(ForwardInput) && transform.position.z < UpLimit)
         {
             transform.position += Vector3.forward * MovementSpeed;
+            ZAxisMovement = 1;
         }
         else if (Input.GetKey(BackwardInput) && transform.position.z > BackLimit)
         {
             transform.position += Vector3.back * MovementSpeed;
+            ZAxisMovement = -1;
         }
         // Left
         if (Input.GetKey(LeftInput) && transform.position.x > LeftLimimit)
         {
             transform.position += Vector3.left * MovementSpeed;
+            XAxisMovement = -1;
         }
         else if (Input.GetKey(RightInput) && transform.position.x < RightLimit)
         {
             transform.position += Vector3.right * MovementSpeed;
+            XAxisMovement = 1;
         }
 
 

@@ -10,9 +10,17 @@ public class BulletStandard : BulletBase {
         return "BulletStandard";
     }
 
-    
+    #region Visual effect
 
-    
+    public ParticleSystem particleSystem;
+
+    public override void DestroyVisualEffect()
+    {
+        particleSystem.Play();
+        
+    }
+
+    #endregion
 
 
 }

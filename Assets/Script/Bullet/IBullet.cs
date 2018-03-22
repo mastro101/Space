@@ -7,7 +7,7 @@ public interface IBullet {
     IBulletState CurrentState { get; set; }
 
 
-    void DestroyMe();
+    void DestroyBehaviour();
     void Shoot(Vector3 _direction, float _force);
 
     event IBulletEvents.BulletEvent OnShoot;
